@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/apple/Desktop/LEI/app/layout\":[\"static/media/6c25f6e897d845a3-s.p.woff2\",\"static/media/24f6ebe2756575bd-s.p.woff2\",\"static/media/8a1d8947e5852e30-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
