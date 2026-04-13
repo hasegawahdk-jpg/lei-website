@@ -1,10 +1,18 @@
 "use client";
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Contact() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+    
     const formData = new FormData(e.currentTarget);
     
     const company = formData.get("company") as string;
@@ -13,15 +21,21 @@ export default function Contact() {
     const category = formData.get("category") as string;
     const message = formData.get("message") as string;
     
-    const subject = encodeURIComponent(`【LEI, inc.】お問い合わせ：${category}`);
-    const body = encodeURIComponent(
-      `会社名：${company}\n` +
-      `お名前：${name}\n` +
-      `メール：${email}\n` +
-      `内容：${category}\n\n` +
-      `${message}`
-    );
-    window.location.href = `mailto:info@lei-inc.jp?subject=${subject}&body=${body}`;
+    const { error } = await supabase
+      .from('contact')
+      .insert([
+        { company, name, email, category, message }
+      ]);
+
+    setIsSubmitting(false);
+
+    if (error) {
+      console.error("Supabase insert error:", error);
+      setErrorMessage("送信に失敗しました。時間をおいて再度お試しください。");
+    } else {
+      setSubmitSuccess(true);
+      (e.target as HTMLFormElement).reset();
+    }
   };
 
   return (
@@ -46,39 +60,53 @@ export default function Contact() {
           </p>
 
           <form id="contact-form" className="reveal reveal-delay-4" onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <div className="form-group">
-                <label className="form-label">会社名<span className="req">*</span></label>
-                <input type="text" name="company" className="form-input" placeholder="株式会社〇〇" required />
+            {submitSuccess ? (
+              <div style={{ textAlign: 'center', padding: '3rem', background: 'rgba(42, 191, 191, 0.1)', borderRadius: '8px' }}>
+                <h3 style={{ color: '#2abfbf', fontSize: '20px', marginBottom: '1rem', fontWeight: 'bold' }}>送信完了</h3>
+                <p style={{ lineHeight: '1.6' }}>お問い合わせいただきありがとうございます。<br />担当者より2営業日以内にご連絡いたします。</p>
               </div>
-              <div className="form-group">
-                <label className="form-label">お名前<span className="req">*</span></label>
-                <input type="text" name="name" className="form-input" placeholder="山田 太郎" required />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">メールアドレス<span className="req">*</span></label>
-              <input type="email" name="email" className="form-input" placeholder="info@example.com" required />
-            </div>
-            <div className="form-group">
-              <label className="form-label">お問い合わせ内容<span className="req">*</span></label>
-              <select name="category" className="form-select form-input" required defaultValue="">
-                <option value="" disabled>内容を選択してください</option>
-                <option value="AIコンサルティングについて">AIコンサルティングについて</option>
-                <option value="クラウドコスト削減支援について">クラウドコスト削減支援について</option>
-                <option value="WEBマーケティング支援について">WEBマーケティング支援について</option>
-                <option value="IP創出支援について">IP創出支援について</option>
-                <option value="その他">その他</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label">メッセージ</label>
-              <textarea name="message" className="form-textarea" placeholder="ご相談内容をご記入ください"></textarea>
-            </div>
-            <div className="form-submit-wrap">
-              <button type="submit" className="btn-submit">送信する</button>
-              <p className="form-note">送信後、担当者より2営業日以内にご返信いたします。</p>
-            </div>
+            ) : (
+              <>
+                {errorMessage && (
+                  <p style={{ color: '#ff4d4f', textAlign: 'center', marginBottom: '1rem', fontSize: '14px', fontWeight: 'bold' }}>{errorMessage}</p>
+                )}
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label className="form-label">会社名<span className="req">*</span></label>
+                    <input type="text" name="company" className="form-input" placeholder="株式会社〇〇" required />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">お名前<span className="req">*</span></label>
+                    <input type="text" name="name" className="form-input" placeholder="山田 太郎" required />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">メールアドレス<span className="req">*</span></label>
+                  <input type="email" name="email" className="form-input" placeholder="info@example.com" required />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">お問い合わせ内容<span className="req">*</span></label>
+                  <select name="category" className="form-select form-input" required defaultValue="">
+                    <option value="" disabled>内容を選択してください</option>
+                    <option value="AIコンサルティングについて">AIコンサルティングについて</option>
+                    <option value="クラウドコスト削減支援について">クラウドコスト削減支援について</option>
+                    <option value="WEBマーケティング支援について">WEBマーケティング支援について</option>
+                    <option value="IP創出支援について">IP創出支援について</option>
+                    <option value="その他">その他</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">メッセージ</label>
+                  <textarea name="message" className="form-textarea" placeholder="ご相談内容をご記入ください"></textarea>
+                </div>
+                <div className="form-submit-wrap">
+                  <button type="submit" className="btn-submit" disabled={isSubmitting} style={{ opacity: isSubmitting ? 0.7 : 1 }}>
+                    {isSubmitting ? "送信中..." : "送信する"}
+                  </button>
+                  <p className="form-note">送信後、担当者より2営業日以内にご返信いたします。</p>
+                </div>
+              </>
+            )}
           </form>
 
           <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'12px',marginTop:'2.5rem',paddingTop:'2rem',borderTop:'1px solid rgba(13,33,55,0.1)'}}>
