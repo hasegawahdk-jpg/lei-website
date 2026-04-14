@@ -5,18 +5,68 @@ import Image from "next/image";
 
 export default function Service() {
   useEffect(() => {
-    // Service セクションのテキストを直接表示（タイピングアニメーション廃止）
     const serviceGrid = document.querySelector('.service-grid');
     if (!serviceGrid) return;
 
-    const paragraphs = serviceGrid.querySelectorAll('.typing-target');
-    paragraphs.forEach(p => {
-      const text = (p as HTMLElement).getAttribute('data-text') || '';
-      p.textContent = text;
-    });
+    const targets = serviceGrid.querySelectorAll('.typing-target');
+    const typed = new Set<Element>();
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting || typed.has(entry.target)) return;
+
+        const body = entry.target.closest('.service-body');
+        if (!body) {
+          startTyping(entry.target as HTMLElement, 0);
+          typed.add(entry.target);
+          return;
+        }
+
+        const group = body.querySelectorAll('.typing-target');
+        group.forEach(el => {
+          if (!typed.has(el)) {
+            typed.add(el);
+          }
+        });
+
+        let cumulativeDelay = 0;
+        group.forEach(el => {
+          startTyping(el as HTMLElement, cumulativeDelay);
+          const len = (el.getAttribute('data-text') || '').length;
+          cumulativeDelay += len * 30 + 400;
+        });
+      });
+    }, { threshold: 0.35 });
+
+    function startTyping(el: HTMLElement, delay: number) {
+      const text = el.getAttribute('data-text') || '';
+      const chars = [...text];
+      const speed = 28;
+      let i = 0;
+      el.textContent = '';
+
+      const cursor = document.createElement('span');
+      cursor.className = 'typing-cursor';
+      el.appendChild(cursor);
+
+      setTimeout(function type() {
+        if (i < chars.length) {
+          el.insertBefore(document.createTextNode(chars[i]), cursor);
+          i++;
+          setTimeout(type, speed + Math.random() * 12);
+        } else {
+          setTimeout(() => {
+            cursor.style.animation = 'none';
+            cursor.style.opacity = '0';
+          }, 2500);
+        }
+      }, delay + 200);
+    }
+
+    targets.forEach(el => obs.observe(el));
 
     return () => {
-      // cleanup
+      obs.disconnect();
     };
   }, []);
 

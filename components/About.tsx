@@ -4,18 +4,67 @@ import { useEffect } from "react";
 
 export default function About() {
   useEffect(() => {
-    // About セクションのテキストを直接表示（タイピングアニメーション廃止）
-    const aboutBody = document.querySelector('#about .about-body');
-    if (!aboutBody) return;
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
 
-    const paragraphs = aboutBody.querySelectorAll('.typing-target');
-    paragraphs.forEach(p => {
-      const text = (p as HTMLElement).getAttribute('data-text') || '';
-      p.textContent = text;
-    });
+    const targets = aboutSection.querySelectorAll('.about-body > .typing-target');
+    let typedCount = 0;
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        if (typedCount === 0) {
+          startSequentialTyping(Array.from(targets));
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+
+    function startSequentialTyping(elements: Element[]) {
+      if (typedCount >= elements.length) return;
+
+      const el = elements[typedCount] as HTMLElement;
+      startTyping(el, 0, () => {
+        typedCount++;
+        if (typedCount < elements.length) {
+          startSequentialTyping(elements);
+        }
+      });
+    }
+
+    function startTyping(el: HTMLElement, delay: number, onComplete?: () => void) {
+      const text = el.getAttribute('data-text') || '';
+      const chars = [...text];
+      const speed = 20;
+      let i = 0;
+      el.textContent = '';
+
+      const cursor = document.createElement('span');
+      cursor.className = 'typing-cursor';
+
+      setTimeout(function type() {
+        if (i < chars.length) {
+          if (i === 0) {
+            el.appendChild(cursor);
+          }
+          el.insertBefore(document.createTextNode(chars[i]), cursor);
+          i++;
+          setTimeout(type, speed + Math.random() * 8);
+        } else {
+          setTimeout(() => {
+            cursor.style.animation = 'none';
+            cursor.style.opacity = '0';
+            if (onComplete) onComplete();
+          }, 1000);
+        }
+      }, delay + 200);
+    }
+
+    targets.forEach(el => obs.observe(el));
 
     return () => {
-      // cleanup
+      obs.disconnect();
     };
   }, []);
 
