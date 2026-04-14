@@ -8,16 +8,18 @@ export default function About() {
     if (!aboutSection) return;
 
     const targets = aboutSection.querySelectorAll('.about-body > .typing-target');
+    if (targets.length === 0) return;
+
     let typedCount = 0;
+    let hasStarted = false;
 
     const obs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
+        if (!entry.isIntersecting || hasStarted) return;
 
-        if (typedCount === 0) {
-          startSequentialTyping(Array.from(targets));
-          obs.disconnect();
-        }
+        hasStarted = true;
+        startSequentialTyping(Array.from(targets));
+        obs.disconnect();
       });
     }, { threshold: 0.35 });
 
@@ -25,6 +27,7 @@ export default function About() {
       if (typedCount >= elements.length) return;
 
       const el = elements[typedCount] as HTMLElement;
+      el.textContent = '';
       startTyping(el, 0, () => {
         typedCount++;
         if (typedCount < elements.length) {
@@ -38,7 +41,6 @@ export default function About() {
       const chars = [...text];
       const speed = 20;
       let i = 0;
-      el.textContent = '';
 
       const cursor = document.createElement('span');
       cursor.className = 'typing-cursor';
@@ -61,7 +63,10 @@ export default function About() {
       }, delay + 200);
     }
 
-    targets.forEach(el => obs.observe(el));
+    // 最初の要素だけ observe
+    if (targets.length > 0) {
+      obs.observe(targets[0]);
+    }
 
     return () => {
       obs.disconnect();
