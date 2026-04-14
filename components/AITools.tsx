@@ -8,7 +8,7 @@ const tools = [
   { name: 'Claude Cowork',       domain: 'claude.ai',                bg: '#A05830' },
   { name: 'Gemini',              domain: 'gemini.google.com',        bg: '#4285F4' },
   { name: 'Google AI Studio',    domain: 'aistudio.google.com',      bg: '#34A853' },
-  { name: 'NotebookLM',          domain: 'notebooklm.google.com',    bg: '#1A73E8' },
+  { name: 'NotebookLM',          domain: 'notebooklm.google.com',    bg: '#9C27B0', logo: '/images/tools/notebooklm.svg' },
   { name: 'Grok',                domain: 'x.ai',                     bg: '#222222' },
   { name: 'Perplexity',          domain: 'perplexity.ai',            bg: '#20B2AA' },
   { name: 'Genspark',            domain: 'genspark.ai',              bg: '#7C3AED' },
@@ -34,15 +34,19 @@ const row1 = tools.slice(0, 8);
 const row2 = tools.slice(8, 16);
 const row3 = tools.slice(16);
 
+// モバイル用：2行に統合（例：row1+row2 = 16個）
+const row1Mobile = tools.slice(0, 13);
+const row2Mobile = tools.slice(13);
+
 export default function AITools() {
   const logoUrl = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
   const renderChip = (t: any, key: string) => (
     <div className="tool-chip" key={key}>
       {t.domain ? (
-        <img 
-          className="tool-logo" 
-          src={logoUrl(t.domain)} 
+        <img
+          className="tool-logo"
+          src={t.logo ? t.logo : logoUrl(t.domain)}
           alt={t.name}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
@@ -73,9 +77,11 @@ export default function AITools() {
     <section id="ai-tools">
       <div className="tools-header">
         <div className="tools-header-label">活用AI・ITツール</div>
-        <p className="tools-header-title">最先端のツールを駆使し、事業にFITさせています。</p>
+        <p className="tools-header-title">最先端ツールを駆使し、<br />事業にFITさせています。</p>
       </div>
-      <div className="marquee-rows" id="marquee-rows">
+
+      {/* デスクトップ表示（3行） */}
+      <div className="marquee-rows marquee-rows-desktop" id="marquee-rows">
         <div className="marquee-row marquee-row-1" id="mrow-1">
           {renderTrack(row1)}
         </div>
@@ -86,6 +92,17 @@ export default function AITools() {
           {renderTrack(row3)}
         </div>
       </div>
+
+      {/* モバイル表示（2行） */}
+      <div className="marquee-rows marquee-rows-mobile" id="marquee-rows-mobile">
+        <div className="marquee-row marquee-row-mobile-1" id="mrow-mobile-1">
+          {renderTrack(row1Mobile)}
+        </div>
+        <div className="marquee-row marquee-row-mobile-2" id="mrow-mobile-2">
+          {renderTrack(row2Mobile)}
+        </div>
+      </div>
+
       <p className="tools-disclaimer">
         ※ 記載のツール・サービス名およびロゴは各社の商標または登録商標です。<br />
         当社は各社の公認パートナーではありません。
