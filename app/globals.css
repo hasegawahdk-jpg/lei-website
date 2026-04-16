@@ -1100,8 +1100,13 @@ footer {
     gap: 2.5rem;
   }
 
+  .about-body {
+    font-size: 16px;
+    line-height: 2.1;
+  }
+
   .about-text {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .about-image {
@@ -1186,7 +1191,18 @@ footer {
 
   .service-desc,
   .service-check {
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .about-body {
+    font-size: 16px;
+    line-height: 2.2;
+  }
+
+  .vision-ja {
+    font-size: 13px;
+    line-height: 2.2;
   }
 
   .tool-chip {
