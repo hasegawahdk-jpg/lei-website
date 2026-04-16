@@ -1101,12 +1101,12 @@ footer {
   }
 
   .about-body {
-    font-size: 16px;
+    font-size: 16px !important;
     line-height: 2.1;
   }
 
   .about-text {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 
   .about-image {
@@ -1191,17 +1191,17 @@ footer {
 
   .service-desc,
   .service-check {
-    font-size: 14px;
+    font-size: 14px !important;
     line-height: 1.8;
   }
 
   .about-body {
-    font-size: 16px;
+    font-size: 16px !important;
     line-height: 2.2;
   }
 
   .vision-ja {
-    font-size: 13px;
+    font-size: 13px !important;
     line-height: 2.2;
   }
 
