@@ -1,77 +1,95 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 
-const tools = [
-  { name: 'Claude.ai',           domain: 'claude.ai',                bg: '#CC8B5A' },
-  { name: 'Claude Code',         domain: 'claude.ai',                bg: '#B87040' },
-  { name: 'Claude Cowork',       domain: 'claude.ai',                bg: '#A05830' },
-  { name: 'Gemini',              domain: 'gemini.google.com',        bg: '#4285F4' },
-  { name: 'Google AI Studio',    domain: 'aistudio.google.com',      bg: '#34A853' },
-  { name: 'NotebookLM',          domain: 'notebooklm.google.com',    bg: '#9C27B0', logo: '/images/tools/notebooklm.svg' },
-  { name: 'Grok',                domain: 'x.ai',                     bg: '#222222' },
-  { name: 'Perplexity',          domain: 'perplexity.ai',            bg: '#20B2AA' },
-  { name: 'Genspark',            domain: 'genspark.ai',              bg: '#7C3AED' },
-  { name: 'DeepResearch',        domain: 'gemini.google.com',        bg: '#4285F4' },
-  { name: 'Make',                domain: 'make.com',                 bg: '#6D00CC' },
-  { name: 'Figma',               domain: 'figma.com',                bg: '#F24E1E' },
-  { name: 'Canva',               domain: 'canva.com',                bg: '#00C4CC' },
-  { name: 'Visual Studio Code',  domain: 'code.visualstudio.com',    bg: '#007ACC' },
-  { name: 'WebCatalog',          domain: 'webcatalog.io',            bg: '#4A90D9' },
-  { name: 'nanobanana Pro 2',    domain: 'nanobananas.ai',           bg: '#FF6B35' },
-  { name: 'Google Antigravity',  domain: 'antigravity.google',       bg: '#34A853' },
-  { name: 'CodeBuddy',           domain: 'codebuddy.cn',             bg: '#1366EC' },
-  { name: 'Obsidian',            domain: 'obsidian.md',              bg: '#7C3AED' },
-  { name: 'SUNO',                domain: 'suno.com',                 bg: '#FF3B5C' },
-  { name: 'GitHub',              domain: 'github.com',               bg: '#24292E' },
-  { name: 'Stitch',              domain: 'stitch.withgoogle.com',    bg: '#4285F4' },
-  { name: 'OpenClaw',            domain: 'openclaw.ai',              bg: '#FF6B00' },
-  { name: 'shadcn',              domain: 'shadcn.net',               bg: '#000000' },
-  { name: 'Supabase',            domain: 'supabase.com',             bg: '#3ECF8E' },
+const toolCategories = [
+  {
+    name: "AI生成・分析",
+    icon: "🤖",
+    tools: [
+      { name: 'Claude.ai', domain: 'claude.ai', bg: '#CC8B5A' },
+      { name: 'Claude Code', domain: 'claude.ai', bg: '#B87040' },
+      { name: 'Claude Cowork', domain: 'claude.ai', bg: '#A05830' },
+      { name: 'Gemini', domain: 'gemini.google.com', bg: '#4285F4' },
+      { name: 'Google AI Studio', domain: 'aistudio.google.com', bg: '#34A853' },
+      { name: 'NotebookLM', domain: 'notebooklm.google.com', bg: '#9C27B0' },
+      { name: 'Grok', domain: 'x.ai', bg: '#222222' },
+      { name: 'Perplexity', domain: 'perplexity.ai', bg: '#20B2AA' },
+      { name: 'Genspark', domain: 'genspark.ai', bg: '#7C3AED' },
+      { name: 'DeepResearch', domain: 'gemini.google.com', bg: '#4285F4' },
+    ]
+  },
+  {
+    name: "開発・インフラ",
+    icon: "⚙️",
+    tools: [
+      { name: 'Visual Studio Code', domain: 'code.visualstudio.com', bg: '#007ACC' },
+      { name: 'GitHub', domain: 'github.com', bg: '#24292E' },
+      { name: 'Supabase', domain: 'supabase.com', bg: '#3ECF8E' },
+      { name: 'shadcn', domain: 'shadcn.net', bg: '#000000' },
+      { name: 'CodeBuddy', domain: 'codebuddy.cn', bg: '#1366EC' },
+      { name: 'Google Antigravity', domain: 'antigravity.google', bg: '#34A853' },
+      { name: 'Make', domain: 'make.com', bg: '#6D00CC' },
+      { name: 'Stitch', domain: 'stitch.withgoogle.com', bg: '#4285F4' },
+    ]
+  },
+  {
+    name: "デザイン・クリエイティブ",
+    icon: "🎨",
+    tools: [
+      { name: 'Canva', domain: 'canva.com', bg: '#00C4CC' },
+      { name: 'Figma', domain: 'figma.com', bg: '#F24E1E' },
+      { name: 'Obsidian', domain: 'obsidian.md', bg: '#7C3AED' },
+      { name: 'SUNO', domain: 'suno.com', bg: '#FF3B5C' },
+      { name: 'OpenClaw', domain: 'openclaw.ai', bg: '#FF6B00' },
+      { name: 'nanobanana Pro 2', domain: 'nanobananas.ai', bg: '#FF6B35' },
+    ]
+  },
+  {
+    name: "ビジネス・ユーティリティ",
+    icon: "💼",
+    tools: [
+      { name: 'WebCatalog', domain: 'webcatalog.io', bg: '#4A90D9' },
+    ]
+  }
 ];
 
-const row1 = tools.slice(0, 8);
-const row2 = tools.slice(8, 16);
-const row3 = tools.slice(16);
-
-// モバイル用：2行に統合（例：row1+row2 = 16個）
-const row1Mobile = tools.slice(0, 13);
-const row2Mobile = tools.slice(13);
-
 export default function AITools() {
-  const logoUrl = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-
-  const renderChip = (t: any, key: string) => (
-    <div className="tool-chip" key={key}>
-      {t.domain ? (
-        <img
-          className="tool-logo"
-          src={t.logo ? t.logo : logoUrl(t.domain)}
-          alt={t.name}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const fallback = target.nextElementSibling as HTMLElement;
-            if (fallback) fallback.style.display = 'flex';
-          }}
-        />
-      ) : null}
-      <div className="tool-logo-fallback" style={{ background: t.bg, display: t.domain ? 'none' : 'flex' }}>
-        {t.name.slice(0, 2).toUpperCase()}
-      </div>
-      <span className="tool-name">{t.name}</span>
-    </div>
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set(toolCategories.slice(0, 2).map(cat => cat.name))
   );
 
-  const renderTrack = (items: any[]) => {
-    // 4周分コピーしてシームレスループを作成
-    const doubled = [...items, ...items, ...items, ...items];
-    return (
-      <div className="marquee-track">
-        {doubled.map((t, index) => renderChip(t, `${t.name}-${index}`))}
-      </div>
-    );
+  const toggleCategory = (categoryName: string) => {
+    const newExpanded = new Set(expandedCategories);
+    if (newExpanded.has(categoryName)) {
+      newExpanded.delete(categoryName);
+    } else {
+      newExpanded.add(categoryName);
+    }
+    setExpandedCategories(newExpanded);
   };
+
+  const logoUrl = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+
+  const renderToolChip = (tool: any) => (
+    <div className="tool-chip-accordion" key={tool.name}>
+      <img
+        className="tool-logo-accordion"
+        src={logoUrl(tool.domain)}
+        alt={tool.name}
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+          const fallback = target.nextElementSibling as HTMLElement;
+          if (fallback) fallback.style.display = 'flex';
+        }}
+      />
+      <div className="tool-logo-fallback-accordion" style={{ background: tool.bg }}>
+        {tool.name.slice(0, 2).toUpperCase()}
+      </div>
+      <span className="tool-name-accordion">{tool.name}</span>
+    </div>
+  );
 
   return (
     <section id="ai-tools">
@@ -80,27 +98,30 @@ export default function AITools() {
         <p className="tools-header-title">最先端ツールを駆使し、<br />事業にFITさせています。</p>
       </div>
 
-      {/* デスクトップ表示（3行） */}
-      <div className="marquee-rows marquee-rows-desktop" id="marquee-rows">
-        <div className="marquee-row marquee-row-1" id="mrow-1">
-          {renderTrack(row1)}
-        </div>
-        <div className="marquee-row marquee-row-2" id="mrow-2">
-          {renderTrack(row2)}
-        </div>
-        <div className="marquee-row marquee-row-3" id="mrow-3">
-          {renderTrack(row3)}
-        </div>
-      </div>
+      <div className="tools-accordion">
+        {toolCategories.map((category) => (
+          <div className="accordion-item" key={category.name}>
+            <button
+              className="accordion-button"
+              onClick={() => toggleCategory(category.name)}
+              aria-expanded={expandedCategories.has(category.name)}
+            >
+              <span className="accordion-icon">{category.icon}</span>
+              <span className="accordion-title">{category.name}</span>
+              <span className={`accordion-chevron ${expandedCategories.has(category.name) ? 'expanded' : ''}`}>
+                ▼
+              </span>
+            </button>
 
-      {/* モバイル表示（2行） */}
-      <div className="marquee-rows marquee-rows-mobile" id="marquee-rows-mobile">
-        <div className="marquee-row marquee-row-mobile-1" id="mrow-mobile-1">
-          {renderTrack(row1Mobile)}
-        </div>
-        <div className="marquee-row marquee-row-mobile-2" id="mrow-mobile-2">
-          {renderTrack(row2Mobile)}
-        </div>
+            {expandedCategories.has(category.name) && (
+              <div className="accordion-content">
+                <div className="tools-grid">
+                  {category.tools.map((tool) => renderToolChip(tool))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
 
       <p className="tools-disclaimer">
