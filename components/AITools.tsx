@@ -71,7 +71,7 @@ export default function AITools() {
         <p className="tools-header-title">最先端ツールを駆使し、<br />事業にFITさせています。</p>
       </div>
 
-      <div className="marquee-rows" id="marquee-rows">
+      <div className="marquee-rows-desktop" id="marquee-rows">
         <div className="marquee-row marquee-row-1" id="mrow-1">
           {renderTrack(row1)}
         </div>
