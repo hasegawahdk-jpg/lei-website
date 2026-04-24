@@ -1044,15 +1044,15 @@ footer {
     font-size: 18px;
   }
 
-  /* デスクトップ版を非表示、モバイル版を表示 */
+  /* マーキー表示は全デバイスで統一（デスクトップ同様） */
   .marquee-rows-desktop {
-    display: none;
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .marquee-rows-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: none;
   }
 
   .marquee-row-mobile-1,
