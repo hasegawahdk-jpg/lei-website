@@ -934,38 +934,45 @@ footer {
   /* HERO - モバイル最適化 */
   #home {
     grid-template-columns: 1fr;
-    padding-top: 100px;
+    padding-top: 80px;
     gap: 0;
     min-height: auto;
   }
 
   .hero-left {
-    padding: 2.5rem 1.5rem 3rem 1.5rem;
+    padding: 1.2rem 1.5rem 1.5rem 1.5rem;
     order: 1;
     justify-content: flex-start;
-    padding-top: 1.5rem;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 1.2rem !important;
   }
 
   .hero-main {
-    font-size: 28px;
-    line-height: 1.35;
-    margin-bottom: 1.2rem;
+    font-size: 26px;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
   }
 
   .vision-en {
-    font-size: 24px;
-    margin-bottom: 0.6rem;
+    font-size: 22px;
+    margin-bottom: 0.4rem;
   }
 
   .vision-ja {
-    font-size: 13px;
-    line-height: 1.8;
-    margin-bottom: 1.8rem;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-divider {
+    margin-bottom: 1rem !important;
   }
 
   .hero-cta {
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.6rem;
     align-items: stretch;
     width: 100%;
   }
@@ -975,11 +982,12 @@ footer {
     font-size: 11px;
     width: 100%;
     text-align: center;
+    padding: 10px 16px !important;
   }
 
   .hero-right {
     order: 2;
-    height: 200px;
+    height: 100px;
     background: var(--teal-pale);
     border-top: 1px solid rgba(42, 191, 191, 0.2);
     overflow: hidden;
@@ -1577,18 +1585,18 @@ footer {
 /* ─── Vision Full セクション追加最適化 ─── */
 @media (max-width: 768px) {
   #vision-full {
-    padding: 2.5rem 1.5rem;
+    padding: 2rem 1.5rem;
   }
 
   .vision-full-en {
-    font-size: 44px;
-    margin-bottom: 1.2rem;
+    font-size: 40px;
+    margin-bottom: 0.8rem;
     line-height: 1.1;
   }
 
   .vision-full-ja {
-    font-size: 13px;
-    line-height: 1.8;
+    font-size: 12px;
+    line-height: 1.7;
   }
 }
 
