@@ -1,1 +1,29 @@
 node_modules/
+
+# Next.js
+.next/
+out/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Env / secrets
+.env*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Tooling
+.playwright-mcp/
+.mcp.json
+
+# Misc (large local files that don't belong in repo)
+_TempTrash/
+LEI_HP.zip
+*.pdf
+*.xlsx
+*.docx
