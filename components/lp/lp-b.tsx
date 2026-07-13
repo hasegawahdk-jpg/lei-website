@@ -244,31 +244,18 @@ function ServiceRowB({ s, device, idx }: { s: Service; device: Device; idx: numb
                 )}
               </Reveal>
             )}
-            {/* 対応クラウド：CloudCut × AWS / Google Cloud ロゴ帯 */}
+            {/* 提供ブランド：CloudCut ロゴ署名 */}
             <Reveal delay={520} style={{
               marginTop: isSP ? 22 : 30, paddingTop: isSP ? 18 : 22,
               borderTop: '1px solid rgba(255,255,255,0.12)',
-              display: 'flex', alignItems: 'center', gap: isSP ? 12 : 18, flexWrap: 'wrap',
+              display: 'flex', alignItems: 'center', gap: isSP ? 11 : 15,
             }}>
+              <span className="lp-en" style={{
+                fontSize: isSP ? 9 : 10, fontWeight: 700, letterSpacing: '0.2em', color: LEI.teal,
+              }}>POWERED BY</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/logo/cloudcut-full-white.png" alt="CloudCut"
-                style={{ height: isSP ? 17 : 21, width: 'auto', opacity: 0.95 }}/>
-              <span aria-hidden style={{ width: 1, height: isSP ? 16 : 20, background: 'rgba(255,255,255,0.18)' }}/>
-              <span className="lp-en" style={{
-                fontSize: isSP ? 9 : 10, fontWeight: 700, letterSpacing: '0.18em', color: LEI.teal,
-              }}>対応</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo/aws-smile-2color.svg" alt="AWS"
-                style={{ height: isSP ? 15 : 18, width: 'auto' }}/>
-              <span aria-hidden style={{ width: 1, height: isSP ? 14 : 16, background: 'rgba(255,255,255,0.18)' }}/>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: isSP ? 6 : 8 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/logo/gcp-cloud.svg" alt="" aria-hidden
-                  style={{ height: isSP ? 17 : 20, width: 'auto' }}/>
-                <span className="lp-en" style={{
-                  fontSize: isSP ? 12 : 14, fontWeight: 700, color: 'rgba(255,255,255,0.9)',
-                }}>Google&nbsp;Cloud</span>
-              </span>
+                style={{ height: isSP ? 20 : 26, width: 'auto' }}/>
             </Reveal>
           </div>
         </div>
