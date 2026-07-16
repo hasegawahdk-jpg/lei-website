@@ -266,7 +266,7 @@ export function About({ device, variant }: { device: Device; variant: Variant })
 
   const rows: [string, string][] = [
     ['社名', '株式会社LEI'],
-    ['設立', '2022年6月'],
+    ['設立', '2026年'],
     ['住所', '東京都渋谷区神宮前六丁目23番4号'],
     ['事業', 'クラウドコスト削減支援 / AIコンサルティング / WEBマーケティング支援 / IP創出支援'],
   ];
