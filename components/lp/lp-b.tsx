@@ -47,7 +47,7 @@ function HeroB({ device }: { device: Device }) {
           display: 'flex', alignItems: 'center', gap: 12,
         }}>
           <span style={{ width: 24, height: 1, background: LEI.teal }}/>
-          <span className="lp-en">株式会社◯ — LEI, INC.</span>
+          <span className="lp-en">株式会社LEI</span>
         </div>
 
         <div className="lei-rise lei-rise-d1" style={{ textAlign: isSP ? 'left' : 'center', position: 'relative' }}>
@@ -244,7 +244,7 @@ function ServiceRowB({ s, device, idx }: { s: Service; device: Device; idx: numb
                 )}
               </Reveal>
             )}
-            {/* 提供ブランド：CloudCut ロゴ署名 */}
+            {/* 提供ブランド：CloudCut ロゴ署名（一時非表示。復活時はコメントアウト解除）
             <Reveal delay={520} style={{
               marginTop: isSP ? 22 : 30, paddingTop: isSP ? 18 : 22,
               borderTop: '1px solid rgba(255,255,255,0.12)',
@@ -253,10 +253,10 @@ function ServiceRowB({ s, device, idx }: { s: Service; device: Device; idx: numb
               <span className="lp-en" style={{
                 fontSize: isSP ? 9 : 10, fontWeight: 700, letterSpacing: '0.2em', color: LEI.teal,
               }}>POWERED BY</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/logo/cloudcut-full-white.png" alt="CloudCut"
                 style={{ height: isSP ? 20 : 26, width: 'auto' }}/>
             </Reveal>
+            */}
           </div>
         </div>
       </article>

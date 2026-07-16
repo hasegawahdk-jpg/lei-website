@@ -265,10 +265,10 @@ export function About({ device, variant }: { device: Device; variant: Variant })
   const isSP = device === 'sp';
 
   const rows: [string, string][] = [
-    ['社名', '株式会社◯  LEI, inc.'],
+    ['社名', '株式会社LEI'],
     ['設立', '2022年6月'],
     ['住所', '東京都渋谷区神宮前六丁目23番4号'],
-    ['事業', 'クラウドコスト削減支援 / AIコンサルティング / WEBマーケティング支援 / IP創出支援 / 介護DX'],
+    ['事業', 'クラウドコスト削減支援 / AIコンサルティング / WEBマーケティング支援 / IP創出支援'],
   ];
 
   return (
@@ -346,7 +346,7 @@ export function About({ device, variant }: { device: Device; variant: Variant })
             <TypewriterParagraphs
               paragraphs={[
                 '実質3,000倍ものインパクト――数年内にオフィス業務の大半が自動化され、超知能の実現すら視野に入る今、あらゆる産業の前提が根底から書き換わろうとしています。',
-                '株式会社◯（LEI, inc.）は、最先端のAI技術を自ら事業に実装してきた「実感値」と、数十億規模の企業経営で培った「経験値」を融合。◯（ゼロ）からリセットする覚悟を持つ企業様とともに、事業と組織のパフォーマンスを再定義し、ビジネスの最適化を実現します。',
+                '株式会社LEIは、最先端のAI技術を自ら事業に実装してきた「実感値」と、数十億規模の企業経営で培った「経験値」を融合。◯（ゼロ）からリセットする覚悟を持つ企業様とともに、事業と組織のパフォーマンスを再定義し、ビジネスの最適化を実現します。',
                 '生成AIの進化は、連日の新機能リリースが示すとおり、想像を超える速度で加速しています。この転換期にこそ、商機と危機の両面を見極め、行動を起こせるかが分かれ目です。近い未来の勝ち組となるために――私たちが、その伴走者になります。',
               ]}
               speed={18}
@@ -479,7 +479,7 @@ export function Contact({ device, variant }: { device: Device; variant: Variant 
           }} onSubmit={(e) => e.preventDefault()}>
             <div>
               <label style={lbl}>会社名 <span style={{ color: LEI.teal }}>*</span></label>
-              <input style={inputStyle} placeholder="株式会社◯" />
+              <input style={inputStyle} placeholder="株式会社LEI" />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: isSP ? '1fr' : '1fr 1fr', gap: isSP ? 18 : 22 }}>
               <div>
@@ -499,7 +499,6 @@ export function Contact({ device, variant }: { device: Device; variant: Variant 
                 <option>AIコンサルティングについて</option>
                 <option>WEBマーケティング支援について</option>
                 <option>IP創出支援について</option>
-                <option>介護DX / 遠隔支援サービスについて</option>
                 <option>その他</option>
               </select>
             </div>
